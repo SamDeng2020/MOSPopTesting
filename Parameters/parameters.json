@@ -7,6 +7,9 @@
     },
     "serverfarms_mospopappplan_name": {
       "value": "mospopappplan"
+    },
+    "virtualNetworks_mospopvnet_subnetname": {
+      "value": "[concat(guid(resourceGroup().id),'_AppSvcSubnet')]"
     }
   }
 }

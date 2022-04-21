@@ -18,22 +18,44 @@
   },
   "orchestratedsteps": [
     {
-      "name": "East Asia plan Region",
+      "name": "East Asia Region nsg",
       "targetType": "ServiceResource",
-      "targetName": "mospopplaneastasia",
+      "targetName": "mospopnsg",
       "actions": [
         "Deploy"
       ]
     },
     {
-      "name": "East Asia Region",
+      "name": "East Asia Region vnet",
+      "targetType": "ServiceResource",
+      "targetName": "mospopvnet",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region nsg"
+      ]
+    },
+    {
+      "name": "East Asia Region appplan",
+      "targetType": "ServiceResource",
+      "targetName": "mospopplaneastasia",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region vnet"
+      ]
+    },
+    {
+      "name": "East Asia Region web",
       "targetType": "ServiceResource",
       "targetName": "mospopeastasia",
       "actions": [
         "Deploy"
       ],
       "dependsOn": [
-        "East Asia plan Region"
+        "East Asia Region appplan"
       ]
     }
   ]

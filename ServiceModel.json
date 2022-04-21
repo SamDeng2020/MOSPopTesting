@@ -9,6 +9,24 @@
       "name": "mospopAppGroup",
       "serviceResourceDefinitions": [
         {
+          "name": "mospopnsg",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\nsg.template.json",
+              "parametersPath": "Parameters\\nsg.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopvnet",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\vnet.template.json",
+              "parametersPath": "Parameters\\vnet.parameters.json"
+            }
+          }
+        },
+        {
           "name": "mospopappplan",
           "composedOf": {
             "arm": {
@@ -36,6 +54,14 @@
       "instanceOf": "mospopAppGroup",
       "azureSubscriptionId": "84cf99a3-1ad1-4304-bcf2-95b76da5f3d5",
       "serviceResources": [
+        {
+          "name": "mospopnsg",
+          "instanceOf": "mospopnsg"
+        },
+        {
+          "name": "mospopvnet",
+          "instanceOf": "mospopvnet"
+        },
         {
           "name": "mospopplaneastasia",
           "instanceOf": "mospopappplan"

@@ -2,10 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "virtualNetworks_mospopvnet_name": {
-      "value": "mospopvnet"
-    },
-    "networkSecurityGroups_NRMS_name": {
+    "networkSecurityGroups_NRMS_wxpfu5yltf26gmospopvnet_name": {
       "value": "NRMS-wxpfu5yltf26gmospopvnet"
     }
   }
