@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/serviceModel.json",
+  "serviceMetadata": {
+    "serviceGroup": "mospop-MktPlace",
+    "environment": "Test"
+  },
+  "serviceResourceGroupDefinitions": [
+    {
+      "name": "mospopAppGroup",
+      "serviceResourceDefinitions": [
+        {
+          "name": "mospopappplan",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\appplan.template.json",
+              "parametersPath": "Parameters\\appplan.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopWebApp",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\template.json",
+              "parametersPath": "Parameters\\parameters.json"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "serviceResourceGroups": [
+    {
+      "azureResourceGroupName": "dyfarmtesting",
+      "location": "East Asia",
+      "instanceOf": "mospopAppGroup",
+      "azureSubscriptionId": "84cf99a3-1ad1-4304-bcf2-95b76da5f3d5",
+      "serviceResources": [
+        {
+          "name": "mospopplaneastasia",
+          "instanceOf": "mospopappplan"
+        },
+        {
+          "name": "mospopeastasia",
+          "instanceOf": "mospopWebApp"
+        }
+      ]
+    }
+  ]
+}

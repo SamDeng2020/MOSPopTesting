@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/rolloutSpecification.json",
+  "rolloutMetadata": {
+    "serviceModelPath": "ServiceModel.json",
+    "scopeBindingsPath": "ScopeBindings.json",
+    "name": "dyf mospop testing",
+    "rolloutType": "Major",
+    "buildSource": {
+      "parameters": {
+        "versionFile": "buildver.txt"
+      }
+    },
+    "notification": {
+      "email": {
+        "to": "ydeng@microsoft.com"
+      }
+    }
+  },
+  "orchestratedsteps": [
+    {
+      "name": "East Asia plan Region",
+      "targetType": "ServiceResource",
+      "targetName": "mospopplaneastasia",
+      "actions": [
+        "Deploy"
+      ]
+    },
+    {
+      "name": "East Asia Region",
+      "targetType": "ServiceResource",
+      "targetName": "mospopeastasia",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia plan Region"
+      ]
+    }
+  ]
+}
