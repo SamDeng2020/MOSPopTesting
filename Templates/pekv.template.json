@@ -14,6 +14,10 @@
       "defaultValue": "mospopvnet",
       "type": "String"
     },
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
+    },
     "privateDnsZones_privatelink_vaultcore_azure_net_name": {
       "defaultValue": "privatelink.vaultcore.azure.net",
       "type": "String"
@@ -37,7 +41,7 @@
       "type": "Microsoft.Network/privateEndpoints",
       "apiVersion": "2020-11-01",
       "name": "[parameters('privateEndpoints_mospopPEKeyvault_name')]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "properties": {
         "privateLinkServiceConnections": [
           {

@@ -11,7 +11,10 @@
       "defaultValue": "NRMS-wxpfu5yltf26gmospopvnet",
       "type": "String"
     },
-
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
+    },
     "networkSecurityGroups_NRMS_wxpfu5yltf26gmospopvnet_externalid": {
       "defaultValue": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_NRMS_name'))]",
       "type": "String"
@@ -23,7 +26,7 @@
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2020-11-01",
       "name": "[parameters('virtualNetworks_mospopvnet_name')]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [

@@ -6,6 +6,10 @@
       "defaultValue": "mospopkeyvault2",
       "type": "String"
     },
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
+    },
     "secretName1": {
       "type": "string",
       "metadata": {
@@ -37,7 +41,7 @@
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2021-11-01-preview",
       "name": "[parameters('vaults_mospopkeyvault2_name')]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "properties": {
         "sku": {
           "family": "A",
@@ -107,7 +111,7 @@
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2021-11-01-preview",
       "name": "[concat(parameters('vaults_mospopkeyvault2_name'), '/',parameters('secretName1'))]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_mospopkeyvault2_name'))]"
       ],
@@ -122,7 +126,7 @@
       "type": "Microsoft.KeyVault/vaults/secrets",
       "apiVersion": "2021-11-01-preview",
       "name": "[concat(parameters('vaults_mospopkeyvault2_name'), '/',parameters('secretName2'))]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_mospopkeyvault2_name'))]"
       ],

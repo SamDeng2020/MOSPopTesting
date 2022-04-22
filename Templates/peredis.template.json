@@ -18,6 +18,10 @@
       "defaultValue": "privatelink.redis.cache.windows.net",
       "type": "String"
     },
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
+    },
     "Redis_mospopredis_externalid": {
       "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Cache/Redis', parameters('Redis_mospopredis_name'))]",
       "type": "String"
@@ -37,7 +41,7 @@
       "type": "Microsoft.Network/privateEndpoints",
       "apiVersion": "2020-11-01",
       "name": "[parameters('privateEndpoints_mospopPERedis_name')]",
-      "location": "eastasia",
+      "location": "[parameters('resource_location')]",
       "properties": {
         "privateLinkServiceConnections": [
           {

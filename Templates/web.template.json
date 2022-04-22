@@ -14,6 +14,10 @@
       "defaultValue": "mospopvnet",
       "type": "String"
     },
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
+    },
     "appsettingconfig": {
       "type": "string",
       "defaultValue": "bbbbbb",
@@ -38,7 +42,7 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2021-03-01",
       "name": "[parameters('sites_dyfmospop_name')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "kind": "app",
       "properties": {
         "enabled": true,
@@ -99,7 +103,7 @@
       "type": "Microsoft.Web/sites/virtualNetworkConnections",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/',parameters('virtualNetworks_mospopvnet_subnetname'))]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -112,7 +116,7 @@
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/ftp')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -124,7 +128,7 @@
       "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/scm')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -136,7 +140,7 @@
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/web')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -218,7 +222,7 @@
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/', parameters('sites_dyfmospop_name'), '.azurewebsites.net')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -231,7 +235,7 @@
       "type": "Microsoft.Web/sites/slots",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/stage')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
@@ -295,7 +299,7 @@
       "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/ftp')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
@@ -321,7 +325,7 @@
       "type": "Microsoft.Web/sites/slots/config",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/web')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
@@ -404,7 +408,7 @@
       "type": "Microsoft.Web/sites/slots/hostNameBindings",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/', parameters('sites_dyfmospop_name'), '-stage.azurewebsites.net')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
@@ -418,7 +422,7 @@
       "type": "Microsoft.Web/sites/slots/virtualNetworkConnections",
       "apiVersion": "2021-03-01",
       "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/',parameters('virtualNetworks_mospopvnet_subnetname'))]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"

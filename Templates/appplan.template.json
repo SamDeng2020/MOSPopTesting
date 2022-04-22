@@ -5,6 +5,10 @@
     "serverfarms_mospopappplan_name": {
       "defaultValue": "mospopappplan",
       "type": "String"
+    },
+    "resource_location": {
+      "defaultValue": "[resourceGroup().location]",
+      "type": "String"
     }
   },
   "variables": {},
@@ -13,7 +17,7 @@
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2021-03-01",
       "name": "[parameters('serverfarms_mospopappplan_name')]",
-      "location": "East Asia",
+      "location": "[parameters('resource_location')]",
       "sku": {
         "name": "P2v2",
         "tier": "PremiumV2",
