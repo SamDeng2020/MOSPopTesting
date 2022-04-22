@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "privateEndpoints_mospopPERedis_name": {
+      "value": "mospopPERedis"
+    },
+    "Redis_mospopredis_name": {
+      "value": "mospopredis"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "value": "mospopvnet"
+    },
+    "privateDnsZones_privatelink_redis_cache_windows_net_name": {
+      "value": "privatelink.redis.cache.windows.net"
+    }
+  }
+}

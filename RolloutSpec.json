@@ -42,9 +42,6 @@
       "targetName": "mospopplaneastasia",
       "actions": [
         "Deploy"
-      ],
-      "dependsOn": [
-        "East Asia Region vnet"
       ]
     },
     {
@@ -55,7 +52,86 @@
         "Deploy"
       ],
       "dependsOn": [
-        "East Asia Region appplan"
+        "East Asia Region appplan",
+        "East Asia Region vnet"
+      ]
+    },
+    {
+      "name": "East Asia Region web vlpservice",
+      "targetType": "ServiceResource",
+      "targetName": "mospopvlpservice",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region appplan",
+        "East Asia Region vnet"
+      ]
+    },
+    {
+      "name": "East Asia Region keyvault",
+      "targetType": "ServiceResource",
+      "targetName": "mospopkeyvault",
+      "actions": [
+        "Deploy"
+      ]
+    },
+    {
+      "name": "East Asia Region keyvault private zone",
+      "targetType": "ServiceResource",
+      "targetName": "kvprivatednszone",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region vnet",
+        "East Asia Region keyvault"
+      ]
+    },
+    {
+      "name": "East Asia Region privateendpoint keyvault",
+      "targetType": "ServiceResource",
+      "targetName": "mospoppekv",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region vnet",
+        "East Asia Region keyvault",
+        "East Asia Region keyvault private zone"
+      ]
+    },
+    {
+      "name": "East Asia Region redis",
+      "targetType": "ServiceResource",
+      "targetName": "mospopredis",
+      "actions": [
+        "Deploy"
+      ]
+    },
+    {
+      "name": "East Asia Region redis private zone",
+      "targetType": "ServiceResource",
+      "targetName": "redisprivatednszone",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region vnet",
+        "East Asia Region redis"
+      ]
+    },
+    {
+      "name": "East Asia Region privateendpoint redis",
+      "targetType": "ServiceResource",
+      "targetName": "mospopperedis",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region vnet",
+        "East Asia Region redis",
+        "East Asia Region redis private zone"
       ]
     }
   ]

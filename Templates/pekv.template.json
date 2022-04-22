@@ -1,0 +1,83 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "privateEndpoints_mospopPEKeyvault_name": {
+      "defaultValue": "mospopPEKeyvault",
+      "type": "String"
+    },
+    "vaults_mospopkeyvault2_name": {
+      "defaultValue": "mospopkeyvault2",
+      "type": "String"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "defaultValue": "mospopvnet",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_vaultcore_azure_net_name": {
+      "defaultValue": "privatelink.vaultcore.azure.net",
+      "type": "String"
+    },
+    "vaults_mospopkeyvault2_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.KeyVault/vaults', parameters('vaults_mospopkeyvault2_name'))]",
+      "type": "String"
+    },
+    "virtualNetworks_mospopvnet_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name'))]",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_vaultcore_azure_net_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_vaultcore_azure_net_name'))]",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2020-11-01",
+      "name": "[parameters('privateEndpoints_mospopPEKeyvault_name')]",
+      "location": "eastasia",
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('privateEndpoints_mospopPEKeyvault_name')]",
+            "properties": {
+              "privateLinkServiceId": "[parameters('vaults_mospopkeyvault2_externalid')]",
+              "groupIds": [
+                "vault"
+              ],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "subnet": {
+          "id": "[concat(parameters('virtualNetworks_mospopvnet_externalid'), '/subnets/PrivateLinkSubnet')]"
+        },
+        "customDnsConfigs": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+      "apiVersion": "2020-11-01",
+      "name": "[concat(parameters('privateEndpoints_mospopPEKeyvault_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_mospopPEKeyvault_name'))]"
+      ],
+      "properties": {
+        "privateDnsZoneConfigs": [
+          {
+            "name": "privatelink-vaultcore-azure-net",
+            "properties": {
+              "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_vaultcore_azure_net_externalid')]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

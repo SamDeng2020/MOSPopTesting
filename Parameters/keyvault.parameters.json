@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vaults_mospopkeyvault2_name": {
+      "value": "mospopkeyvault2"
+    },
+    "secretName1": {
+      "value": "test1"
+    },
+    "secretValue1": {
+      "value": "test1value"
+    },
+    "secretName2": {
+      "value": "test2"
+    },
+    "secretValue2": {
+      "value": "test2value"
+    }
+  }
+}

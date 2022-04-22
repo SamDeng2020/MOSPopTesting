@@ -1,0 +1,451 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sites_dyfmospop_name": {
+      "defaultValue": "dyfvlpservice",
+      "type": "String"
+    },
+    "serverfarms_mospopappplan_name": {
+      "defaultValue": "mospopappplan",
+      "type": "String"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "defaultValue": "mospopvnet",
+      "type": "String"
+    },
+    "appsettingconfig": {
+      "type": "string",
+      "defaultValue": "bbbbbb",
+      "metadata": {
+        "description": "appsettingconfig description"
+      }
+    },
+    "virtualNetworks_mospopvnet_subnetname": {
+      "type": "String"
+    },
+    "connectstringtest": {
+      "type": "string",
+      "defaultValue": "bbbbbbbbbbbb",
+      "metadata": {
+        "description": "conectstring description"
+      }
+    },
+    "servicePackageLink": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The URL for the GitHub repository that contains the project to deploy."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2021-03-01",
+      "name": "[parameters('sites_dyfmospop_name')]",
+      "location": "East Asia",
+      "kind": "app",
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('sites_dyfmospop_name'), '.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('sites_dyfmospop_name'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId(resourcegroup().name,'Microsoft.Web/serverfarms', parameters('serverfarms_mospopappplan_name'))]",
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "testappsettingconfig",
+              "value": "[parameters('appsettingconfig')]"
+            }
+          ],
+          "connectionStrings": [
+            {
+              "name": "connectstringtest",
+              "connectionString": "[parameters('connectstringtest')]",
+              "type": "SQLAzure"
+
+            }
+          ],
+          "numberOfWorkers": 1,
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": true,
+          "http20Enabled": false,
+          "functionAppScaleLimit": 0,
+          "minimumElasticInstanceCount": 0
+        },
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "hostNamesDisabled": false,
+        "customDomainVerificationId": "3D37A3B4B199AABDAE24ADB9772B1ACA73DFA0AD2097AFDE9992BD180F7AAFE0",
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": false,
+        "redundancyMode": "None",
+        "storageAccountRequired": false,
+        "virtualNetworkSubnetId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
+        "keyVaultReferenceIdentity": "SystemAssigned"
+      },
+      "resources": [
+        {
+          "apiVersion": "2021-03-01",
+          "name": "MSDeploy",
+          "type": "Extensions",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('sites_dyfmospop_name'))]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('servicePackageLink')]"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Microsoft.Web/sites/virtualNetworkConnections",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/',parameters('virtualNetworks_mospopvnet_subnetname'))]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "vnetResourceId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
+        "isSwift": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/ftp')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "allow": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/scm')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "allow": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/web')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "phpVersion": "5.6",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2019",
+        "httpLoggingEnabled": false,
+        "acrUseManagedIdentityCreds": false,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "[concat('$',parameters('sites_dyfmospop_name'))]",
+        "scmType": "None",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": true,
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": true
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "vnetName": "[parameters('virtualNetworks_mospopvnet_subnetname')]",
+        "vnetRouteAllEnabled": true,
+        "vnetPrivatePortsCount": 0,
+        "localMySqlEnabled": false,
+        "ipSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "http20Enabled": false,
+        "minTlsVersion": "1.2",
+        "scmMinTlsVersion": "1.0",
+        "ftpsState": "AllAllowed",
+        "preWarmedInstanceCount": 0,
+        "functionAppScaleLimit": 0,
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "minimumElasticInstanceCount": 0,
+        "azureStorageAccounts": {}
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/hostNameBindings",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/', parameters('sites_dyfmospop_name'), '.azurewebsites.net')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "siteName": "[parameters('sites_dyfmospop_name')]",
+        "hostNameType": "Verified"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "kind": "app",
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('sites_dyfmospop_name'),'-stage.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('sites_dyfmospop_name'),'-stage.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId(resourcegroup().name,'Microsoft.Web/serverfarms', parameters('serverfarms_mospopappplan_name'))]",
+        "reserved": false,
+        "isXenon": false,
+        "hyperV": false,
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "testappsettingconfig",
+              "value": "[parameters('appsettingconfig')]"
+            }
+          ],
+          "connectionStrings": [
+            {
+              "name": "connectstringtest",
+              "connectionString": "[parameters('connectstringtest')]",
+              "type": "SQLAzure"
+
+            }
+          ],
+          "numberOfWorkers": 1,
+          "acrUseManagedIdentityCreds": false,
+          "alwaysOn": true,
+          "http20Enabled": false,
+          "functionAppScaleLimit": 0,
+          "minimumElasticInstanceCount": 0
+        },
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "clientCertMode": "Required",
+        "hostNamesDisabled": false,
+        "customDomainVerificationId": "3D37A3B4B199AABDAE24ADB9772B1ACA73DFA0AD2097AFDE9992BD180F7AAFE0",
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": false,
+        "redundancyMode": "None",
+        "storageAccountRequired": false,
+        "virtualNetworkSubnetId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
+        "keyVaultReferenceIdentity": "SystemAssigned"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/ftp')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "allow": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/scm')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "allow": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots/config",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/web')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "phpVersion": "5.6",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2019",
+        "httpLoggingEnabled": false,
+        "acrUseManagedIdentityCreds": false,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "[concat('$',parameters('sites_dyfmospop_name'),'__stage')]",
+        "scmType": "None",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": true,
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": true
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "vnetName": "[parameters('virtualNetworks_mospopvnet_subnetname')]",
+        "vnetRouteAllEnabled": true,
+        "vnetPrivatePortsCount": 0,
+        "localMySqlEnabled": false,
+        "ipSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "http20Enabled": false,
+        "minTlsVersion": "1.2",
+        "scmMinTlsVersion": "1.0",
+        "ftpsState": "AllAllowed",
+        "preWarmedInstanceCount": 0,
+        "functionAppScaleLimit": 0,
+        "functionsRuntimeScaleMonitoringEnabled": false,
+        "minimumElasticInstanceCount": 0,
+        "azureStorageAccounts": {}
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots/hostNameBindings",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/', parameters('sites_dyfmospop_name'), '-stage.azurewebsites.net')]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "siteName": "[concat(parameters('sites_dyfmospop_name'),'(stage)')]",
+        "hostNameType": "Verified"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/slots/virtualNetworkConnections",
+      "apiVersion": "2021-03-01",
+      "name": "[concat(parameters('sites_dyfmospop_name'), '/stage/',parameters('virtualNetworks_mospopvnet_subnetname'))]",
+      "location": "East Asia",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+      ],
+      "properties": {
+        "vnetResourceId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
+        "isSwift": true
+      }
+    }
+  ]
+}

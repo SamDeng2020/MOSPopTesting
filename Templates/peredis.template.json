@@ -1,0 +1,84 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "privateEndpoints_mospopPERedis_name": {
+      "defaultValue": "mospopPERedis",
+      "type": "String"
+    },
+    "Redis_mospopredis_name": {
+      "defaultValue": "mospopredis",
+      "type": "String"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "defaultValue": "mospopvnet",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_redis_cache_windows_net_name": {
+      "defaultValue": "privatelink.redis.cache.windows.net",
+      "type": "String"
+    },
+    "Redis_mospopredis_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Cache/Redis', parameters('Redis_mospopredis_name'))]",
+      "type": "String"
+    },
+    "virtualNetworks_mospopvnet_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name'))]",
+      "type": "String"
+    },
+    "privateDnsZones_privatelink_redis_cache_windows_net_externalid": {
+      "defaultValue": "[resourceId(resourcegroup().name,'Microsoft.Network/privateDnsZones', parameters('privateDnsZones_privatelink_redis_cache_windows_net_name'))]",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Network/privateEndpoints",
+      "apiVersion": "2020-11-01",
+      "name": "[parameters('privateEndpoints_mospopPERedis_name')]",
+      "location": "eastasia",
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "[parameters('privateEndpoints_mospopPERedis_name')]",
+            "properties": {
+              "privateLinkServiceId": "[parameters('Redis_mospopredis_externalid')]",
+              "groupIds": [
+                "redisCache"
+              ],
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Auto-Approved",
+                "actionsRequired": "None"
+              }
+            }
+          }
+        ],
+        "manualPrivateLinkServiceConnections": [],
+        "subnet": {
+          "id": "[concat(parameters('virtualNetworks_mospopvnet_externalid'), '/subnets/PrivateLinkSubnet')]"
+        },
+        "customDnsConfigs": []
+      }
+    },
+    {
+      "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+      "apiVersion": "2020-11-01",
+      "name": "[concat(parameters('privateEndpoints_mospopPERedis_name'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpoints_mospopPERedis_name'))]"
+      ],
+      "properties": {
+        "privateDnsZoneConfigs": [
+          {
+            "name": "privatelink-redis-cache-windows-net",
+            "properties": {
+              "privateDnsZoneId": "[parameters('privateDnsZones_privatelink_redis_cache_windows_net_externalid')]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -39,7 +39,7 @@
                 "id": "[parameters('networkSecurityGroups_NRMS_wxpfu5yltf26gmospopvnet_externalid')]"
               },
               "delegations": [],
-              "privateEndpointNetworkPolicies": "Enabled",
+              "privateEndpointNetworkPolicies": "Disabled",
               "privateLinkServiceNetworkPolicies": "Enabled"
             }
           },
@@ -120,7 +120,7 @@
           "id": "[parameters('networkSecurityGroups_NRMS_wxpfu5yltf26gmospopvnet_externalid')]"
         },
         "delegations": [],
-        "privateEndpointNetworkPolicies": "Enabled",
+        "privateEndpointNetworkPolicies": "Disabled",
         "privateLinkServiceNetworkPolicies": "Enabled"
       }
     }

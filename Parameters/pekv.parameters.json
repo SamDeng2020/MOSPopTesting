@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "privateEndpoints_mospopPEKeyvault_name": {
+      "value": "mospopPEKeyvault"
+    },
+    "vaults_mospopkeyvault2_name": {
+      "value": "mospopkeyvault2"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "value": "mospopvnet"
+    },
+    "privateDnsZones_privatelink_vaultcore_azure_net_name": {
+      "value": "privatelink.vaultcore.azure.net"
+    }
+  }
+}

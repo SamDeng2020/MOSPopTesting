@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "Redis_mospopredis_name": {
+      "defaultValue": "mospopredis",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Cache/Redis",
+      "apiVersion": "2021-06-01",
+      "name": "[parameters('Redis_mospopredis_name')]",
+      "location": "East Asia",
+      "properties": {
+        "redisVersion": "4.1.14",
+        "sku": {
+          "name": "Standard",
+          "family": "C",
+          "capacity": 1
+        },
+        "enableNonSslPort": false,
+        "publicNetworkAccess": "Disabled",
+        "redisConfiguration": {
+          "maxmemory-reserved": "125",
+          "maxfragmentationmemory-reserved": "125",
+          "maxmemory-delta": "125"
+        }
+      }
+    }
+    //,
+    // {
+    //     "type": "Microsoft.Cache/Redis/privateEndpointConnections",
+    //     "apiVersion": "2021-06-01",
+    //     "name": "[concat(parameters('Redis_mospopredis_name'), '/mospopPERedis.0ff676fa-3c15-4417-a289-f0d4e64118fa')]",
+    //     "dependsOn": [
+    //         "[resourceId('Microsoft.Cache/Redis', parameters('Redis_mospopredis_name'))]"
+    //     ],
+    //     "properties": {
+    //         "privateEndpoint": {},
+    //         "privateLinkServiceConnectionState": {
+    //             "status": "Approved",
+    //             "description": "Auto-Approved",
+    //             "actionsRequired": "None"
+    //         }
+    //     }
+    // }
+  ]
+}

@@ -54,7 +54,6 @@
             "hostType": "Repository"
           }
         ],
-        //"serverFarmId": "[parameters('serverfarms_mospopappplan_externalid')]",
         "serverFarmId": "[resourceId(resourcegroup().name,'Microsoft.Web/serverfarms', parameters('serverfarms_mospopappplan_name'))]",
         "reserved": false,
         "isXenon": false,
@@ -163,7 +162,7 @@
         "acrUseManagedIdentityCreds": false,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "$dyfmospop",
+        "publishingUsername": "[concat('$',parameters('sites_dyfmospop_name'))]",
         "scmType": "None",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false,
@@ -224,7 +223,7 @@
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
       "properties": {
-        "siteName": "dyfmospop",
+        "siteName": "[parameters('sites_dyfmospop_name')]",
         "hostNameType": "Verified"
       }
     },
@@ -241,12 +240,12 @@
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "dyfmospop-stage.azurewebsites.net",
+            "name": "[concat(parameters('sites_dyfmospop_name'),'-stage.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "dyfmospop-stage.scm.azurewebsites.net",
+            "name": "[concat(parameters('sites_dyfmospop_name'),'-stage.scm.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
@@ -349,7 +348,7 @@
         "acrUseManagedIdentityCreds": false,
         "logsDirectorySizeLimit": 35,
         "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "$dyfmospop__stage",
+        "publishingUsername": "[concat('$',parameters('sites_dyfmospop_name'),'__stage')]",
         "scmType": "None",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false,
@@ -411,7 +410,7 @@
         "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
       ],
       "properties": {
-        "siteName": "dyfmospop(stage)",
+        "siteName": "[concat(parameters('sites_dyfmospop_name'),'(stage)')]",
         "hostNameType": "Verified"
       }
     },

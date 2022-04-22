@@ -39,8 +39,71 @@
           "name": "mospopWebApp",
           "composedOf": {
             "arm": {
-              "templatePath": "Templates\\template.json",
-              "parametersPath": "Parameters\\parameters.json"
+              "templatePath": "Templates\\web.template.json",
+              "parametersPath": "Parameters\\web.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopvlpservice",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\webvlpservice.template.json",
+              "parametersPath": "Parameters\\webvlpservice.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopkeyvault",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\keyvault.template.json",
+              "parametersPath": "Parameters\\keyvault.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "kvprivatednszone",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\kvprivatednszone.template.json",
+              "parametersPath": "Parameters\\kvprivatednszone.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospoppekv",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\pekv.template.json",
+              "parametersPath": "Parameters\\pekv.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopredis",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\redis.template.json",
+              "parametersPath": "Parameters\\redis.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "redisprivatednszone",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\redisprivatednszone.template.json",
+              "parametersPath": "Parameters\\redisprivatednszone.parameters.json"
+            }
+          }
+        },
+        {
+          "name": "mospopperedis",
+          "composedOf": {
+            "arm": {
+              "templatePath": "Templates\\peredis.template.json",
+              "parametersPath": "Parameters\\peredis.parameters.json"
             }
           }
         }
@@ -69,6 +132,34 @@
         {
           "name": "mospopeastasia",
           "instanceOf": "mospopWebApp"
+        },
+        {
+          "name": "mospopvlpservice",
+          "instanceOf": "mospopvlpservice"
+        },
+        {
+          "name": "mospopkeyvault",
+          "instanceOf": "mospopkeyvault"
+        },
+        {
+          "name": "kvprivatednszone",
+          "instanceOf": "kvprivatednszone"
+        },
+        {
+          "name": "mospoppekv",
+          "instanceOf": "mospoppekv"
+        },
+        {
+          "name": "mospopredis",
+          "instanceOf": "mospopredis"
+        },
+        {
+          "name": "redisprivatednszone",
+          "instanceOf": "redisprivatednszone"
+        },
+        {
+          "name": "mospopperedis",
+          "instanceOf": "mospopperedis"
         }
       ]
     }
