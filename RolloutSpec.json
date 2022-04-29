@@ -45,6 +45,33 @@
       ]
     },
     {
+      "name": "Japan East Region nsg",
+      "targetType": "ServiceResource",
+      "targetName": "mospopnsgje",
+      "actions": [
+        "Deploy"
+      ]
+    },
+    {
+      "name": "Japan East Region vnet",
+      "targetType": "ServiceResource",
+      "targetName": "mospopvnetje",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "East Asia Region nsg"
+      ]
+    },
+    {
+      "name": "Japan East Region appplan",
+      "targetType": "ServiceResource",
+      "targetName": "mospopplaneastasiaje",
+      "actions": [
+        "Deploy"
+      ]
+    },
+    {
       "name": "East Asia Region web",
       "targetType": "ServiceResource",
       "targetName": "mospopeastasia",
@@ -68,6 +95,31 @@
         "East Asia Region vnet"
       ]
     },
+    {
+      "name": "Japan East Region web",
+      "targetType": "ServiceResource",
+      "targetName": "mospopeastasiaje",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "Japan East Region appplan",
+        "Japan East Region vnet"
+      ]
+    },
+    {
+      "name": "Japan East Region web vlpservice",
+      "targetType": "ServiceResource",
+      "targetName": "mospopvlpserviceje",
+      "actions": [
+        "Deploy"
+      ],
+      "dependsOn": [
+        "Japan East Region appplan",
+        "Japan East Region vnet"
+      ]
+    }
+    /*
     {
       "name": "East Asia Region keyvault",
       "targetType": "ServiceResource",
@@ -133,6 +185,6 @@
         "East Asia Region redis",
         "East Asia Region redis private zone"
       ]
-    }
+    } */
   ]
 }

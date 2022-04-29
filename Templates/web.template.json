@@ -18,6 +18,12 @@
       "defaultValue": "[resourceGroup().location]",
       "type": "String"
     },
+    "servicePackageLink": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The URL for the GitHub repository that contains the project to deploy."
+      }
+    },
     "appsettingconfig": {
       "type": "string",
       "defaultValue": "bbbbbb",
@@ -63,20 +69,6 @@
         "isXenon": false,
         "hyperV": false,
         "siteConfig": {
-          "appSettings": [
-            {
-              "name": "testappsettingconfig",
-              "value": "[parameters('appsettingconfig')]"
-            }
-          ],
-          "connectionStrings": [
-            {
-              "name": "connectstringtest",
-              "connectionString": "[parameters('connectstringtest')]",
-              "type": "SQLAzure"
-
-            }
-          ],
           "numberOfWorkers": 1,
           "acrUseManagedIdentityCreds": false,
           "alwaysOn": true,
@@ -97,7 +89,20 @@
         "storageAccountRequired": false,
         "virtualNetworkSubnetId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
         "keyVaultReferenceIdentity": "SystemAssigned"
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2021-03-01",
+          "name": "MSDeploy",
+          "type": "Extensions",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('sites_dyfmospop_name'))]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('servicePackageLink')]"
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites/virtualNetworkConnections",
@@ -142,9 +147,24 @@
       "name": "[concat(parameters('sites_dyfmospop_name'), '/web')]",
       "location": "[parameters('resource_location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]",
+        "[concat('Microsoft.Web/sites/', parameters('sites_dyfmospop_name'),'/Extensions/MSDeploy')]"
       ],
       "properties": {
+        "appSettings": [
+          {
+            "name": "testappsettingconfig",
+            "value": "[parameters('appsettingconfig')]"
+          }
+        ],
+        "connectionStrings": [
+          {
+            "name": "connectstringtest",
+            "connectionString": "[parameters('connectstringtest')]",
+            "type": "SQLAzure"
+
+          }
+        ],
         "numberOfWorkers": 1,
         "defaultDocuments": [
           "Default.htm",
@@ -259,20 +279,6 @@
         "isXenon": false,
         "hyperV": false,
         "siteConfig": {
-          "appSettings": [
-            {
-              "name": "testappsettingconfig",
-              "value": "[parameters('appsettingconfig')]"
-            }
-          ],
-          "connectionStrings": [
-            {
-              "name": "connectstringtest",
-              "connectionString": "[parameters('connectstringtest')]",
-              "type": "SQLAzure"
-
-            }
-          ],
           "numberOfWorkers": 1,
           "acrUseManagedIdentityCreds": false,
           "alwaysOn": true,
@@ -293,7 +299,20 @@
         "storageAccountRequired": false,
         "virtualNetworkSubnetId": "[concat(resourceId(resourcegroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworks_mospopvnet_name')), '/subnets/AppSvcSubnet')]",
         "keyVaultReferenceIdentity": "SystemAssigned"
-      }
+      },
+      "resources": [
+        {
+          "apiVersion": "2021-03-01",
+          "name": "MSDeploy",
+          "type": "Extensions",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('servicePackageLink')]"
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Web/sites/slots/basicPublishingCredentialsPolicies",
@@ -328,9 +347,24 @@
       "location": "[parameters('resource_location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites/slots', parameters('sites_dyfmospop_name'), 'stage')]",
-        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('sites_dyfmospop_name'))]",
+        "[resourceId('Microsoft.Web/Sites/slots/extensions', parameters('sites_dyfmospop_name'),'stage', 'MSDeploy')]"
       ],
       "properties": {
+        "appSettings": [
+          {
+            "name": "testappsettingconfig",
+            "value": "[parameters('appsettingconfig')]"
+          }
+        ],
+        "connectionStrings": [
+          {
+            "name": "connectstringtest",
+            "connectionString": "[parameters('connectstringtest')]",
+            "type": "SQLAzure"
+
+          }
+        ],
         "numberOfWorkers": 1,
         "defaultDocuments": [
           "Default.htm",

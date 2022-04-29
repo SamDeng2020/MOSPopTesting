@@ -116,6 +116,11 @@
       "location": "East Asia",
       "instanceOf": "mospopAppGroup",
       "azureSubscriptionId": "84cf99a3-1ad1-4304-bcf2-95b76da5f3d5",
+      "scopeTags": [
+        {
+          "name": "EastAsiaRegion"
+        }
+      ],
       "serviceResources": [
         {
           "name": "mospopnsg",
@@ -131,11 +136,21 @@
         },
         {
           "name": "mospopeastasia",
-          "instanceOf": "mospopWebApp"
+          "instanceOf": "mospopWebApp",
+          "scopeTags": [
+            {
+              "name": "MosPopSiteName"
+            }
+          ]
         },
         {
           "name": "mospopvlpservice",
-          "instanceOf": "mospopvlpservice"
+          "instanceOf": "mospopWebApp",
+          "scopeTags": [
+            {
+              "name": "VLPServiceSiteName"
+            }
+          ]
         },
         {
           "name": "mospopkeyvault",
@@ -160,6 +175,49 @@
         {
           "name": "mospopperedis",
           "instanceOf": "mospopperedis"
+        }
+      ]
+    },
+    {
+      "azureResourceGroupName": "dyfarmtestingje",
+      "location": "Japan East",
+      "instanceOf": "mospopAppGroup",
+      "azureSubscriptionId": "84cf99a3-1ad1-4304-bcf2-95b76da5f3d5",
+      "scopeTags": [
+        {
+          "name": "JapanEastRegion"
+        }
+      ],
+      "serviceResources": [
+        {
+          "name": "mospopnsgje",
+          "instanceOf": "mospopnsg"
+        },
+        {
+          "name": "mospopvnetje",
+          "instanceOf": "mospopvnet"
+        },
+        {
+          "name": "mospopplaneastasiaje",
+          "instanceOf": "mospopappplan"
+        },
+        {
+          "name": "mospopeastasiaje",
+          "instanceOf": "mospopWebApp",
+          "scopeTags": [
+            {
+              "name": "MosPopSiteName"
+            }
+          ]
+        },
+        {
+          "name": "mospopvlpserviceje",
+          "instanceOf": "mospopWebApp",
+          "scopeTags": [
+            {
+              "name": "VLPServiceSiteName"
+            }
+          ]
         }
       ]
     }

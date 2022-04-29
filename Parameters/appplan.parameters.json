@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "serverfarms_mospopappplan_name": {
-      "value": "mospopappplan"
+      "value": "mospopappplan__location__"
     }
   }
 }

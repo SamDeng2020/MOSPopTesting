@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "virtualNetworks_mospopvnet_name": {
-      "value": "mospopvnet"
+      "value": "mospopvnet__location__"
     },
     "networkSecurityGroups_NRMS_name": {
-      "value": "NRMS-wxpfu5yltf26gmospopvnet"
+      "value": "NRMS-wxpfu5yltf26gmospopvnet__location__"
     }
   }
 }

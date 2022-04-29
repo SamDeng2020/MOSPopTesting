@@ -1,42 +1,42 @@
 {
   "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/scopeBindings.json",
   "contentVersion": "0.0.0.1",
-
   "scopeBindings": [
-  {
-    "scopeTagName": "MyAppCompute",
-    "bindings": [
     {
-      "find": "__SAMPLE_SKU__",
-      "replaceWith": "Standard"
-    }]
-  },
-  {
-    "scopeTagName": "WestUSRegion",
-    "bindings": [
-    {
-      "find": "__LOCATION_ABBR__",
-      "replaceWith": "wus"
+      "scopeTagName": "JapanEastRegion",
+      "bindings": [
+        {
+          "find": "__location__",
+          "replaceWith": "je"
+        }
+      ]
     },
     {
-      "find": "__LOCATION__",
-      "replaceWith": "West US"
+      "scopeTagName": "EastAsiaRegion",
+      "bindings": [
+        {
+          "find": "__location__",
+          "replaceWith": "ea"
+        }
+      ]
     },
     {
-      "find": "__WESTUS_WAIT_TIME__",
-      "replaceWith": "PT3M"
-    }]
-  },
-  {
-    "scopeTagName": "EastUSRegion",
-    "bindings": [
-    {
-      "find": "__LOCATION_ABBR__",
-      "replaceWith": "eus"
+      "scopeTagName": "MosPopSiteName",
+      "bindings": [
+        {
+          "find": "__sitename__",
+          "replaceWith": "dyfmospop"
+        }
+      ]
     },
     {
-      "find": "__LOCATION__",
-      "replaceWith": "East US"
-    }]
-  }]
+      "scopeTagName": "VLPServiceSiteName",
+      "bindings": [
+        {
+          "find": "__sitename__",
+          "replaceWith": "dyfvlpservice"
+        }
+      ]
+    }
+  ]
 }

@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "networkSecurityGroups_NRMS_wxpfu5yltf26gmospopvnet_name": {
-      "value": "NRMS-wxpfu5yltf26gmospopvnet"
+      "value": "NRMS-wxpfu5yltf26gmospopvnet__location__"
     }
   }
 }

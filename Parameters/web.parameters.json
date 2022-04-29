@@ -1,15 +1,26 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
+  "paths": [
+    {
+      "parameterReference": "servicePackageLink"
+    }
+  ],
   "parameters": {
     "sites_dyfmospop_name": {
-      "value": "dyfmospop"
+      "value": "__sitename____location__"
     },
     "serverfarms_mospopappplan_name": {
-      "value": "mospopappplan"
+      "value": "mospopappplan__location__"
+    },
+    "virtualNetworks_mospopvnet_name": {
+      "value": "mospopvnet__location__"
     },
     "virtualNetworks_mospopvnet_subnetname": {
       "value": "[concat(guid(resourceGroup().id),'_AppSvcSubnet')]"
+    },
+    "servicePackageLink": {
+      "value": "bin\\__sitename__.zip"
     }
   }
 }
